@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 2: Introduction to HTML</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .slide {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 60px;
+            max-width: 90vw;
+            max-height: 85vh;
+            overflow-y: auto;
+            display: none;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #4a5568;
+            font-size: 3em;
+            margin-bottom: 30px;
+            text-align: center;
+            border-bottom: 4px solid #667eea;
+            padding-bottom: 20px;
+        }
+
+        h2 {
+            color: #2d3748;
+            font-size: 2.5em;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        h3 {
+            color: #4a5568;
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-left: 5px solid #48bb78;
+            padding-left: 15px;
+        }
+
+        p, li {
+            font-size: 1.4em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .code-box {
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2em;
+            overflow-x: auto;
+        }
+
+        .example-box {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .example-box::before {
+            content: "💡";
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: white;
+            padding: 5px 15px;
+            font-size: 1.5em;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .nav-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-btn:disabled {
+            background: #a0aec0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            color: #4a5568;
+            backdrop-filter: blur(10px);
+        }
+
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid #48bb78;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tag-structure {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            font-size: 1.5em;
+            font-family: 'Courier New', monospace;
+        }
+
+        .tag-part {
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .opening-tag {
+            background: #4299e1;
+            color: white;
+        }
+
+        .content {
+            background: #48bb78;
+            color: white;
+        }
+
+        .closing-tag {
+            background: #ed8936;
+            color: white;
+        }
+
+        .assignment-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .assignment-box h4 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .structure-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 1.2em;
+        }
+
+        .structure-table th,
+        .structure-table td {
+            border: 2px solid #e2e8f0;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .structure-table th {
+            background: #4299e1;
+            color: white;
+            font-weight: bold;
+        }
+
+        .structure-table tr:nth-child(even) {
+            background: #f7fafc;
+        }
+
+        .research-box {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #38b2ac;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides">14</span>
+        </div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>🌐 Introduction to HTML</h1>
+            <div class="highlight">
+                <h2>"What is HTML and How to Build Your First Website?"</h2>
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <p style="font-size: 1.8em; color: #4a5568;">⏱️ Duration: 2 Hours</p>
+                <p style="font-size: 1.3em; color: #718096; margin-top: 20px;">Building the Foundation of the Web</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: What is HTML -->
+        <div class="slide">
+            <h2>🤔 What is HTML?</h2>
+            <div class="highlight">
+                <h3>HTML is the language we use to create web pages. Think of it as the bricks we use to build a website.</h3>
+            </div>
+            
+            <div class="example-box">
+                <h3>📝 Key Points:</h3>
+                <ul>
+                    <li><strong>HTML</strong> = HyperText Markup Language</li>
+                    <li>It's NOT a programming language... it's a "markup" language that organizes page content</li>
+                    <li>Every website you visit is built with HTML</li>
+                    <li>HTML gives structure to web content</li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <h3>🏠 Think of HTML like building a house:</h3>
+                <p>HTML is like the frame and walls of a house - it gives structure. CSS is like the paint and decoration, and JavaScript is like the electrical system that makes things work!</p>
+            </div>
+        </div>
+
+        <!-- Slide 3: What is a Tag -->
+        <div class="slide">
+            <h2>🏷️ What is a Tag?</h2>
+            
+            <div class="tag-structure">
+                <div class="tag-part opening-tag">&lt;tagname&gt;</div>
+                <div class="tag-part content">Content</div>
+                <div class="tag-part closing-tag">&lt;/tagname&gt;</div>
+            </div>
+
+            <div class="example-box">
+                <h3>🎯 How to understand tags:</h3>
+                <ul>
+                    <li><strong>Opening tag:</strong> &lt;p&gt; - tells the browser "start a paragraph"</li>
+                    <li><strong>Content:</strong> "Any text" - what users see</li>
+                    <li><strong>Closing tag:</strong> &lt;/p&gt; - tells the browser "end the paragraph"</li>
+                </ul>
+            </div>
+
+            <div class="code-box">
+                &lt;p&gt;I am the first paragraph!&lt;/p&gt;
+            </div>
+
+            <div class="highlight">
+                <p><strong>Remember:</strong> Most tags need to be opened and closed, like opening and closing a door!</p>
+            </div>
+        </div>
+
+        <!-- Slide 4: Basic Tags -->
+        <div class="slide">
+            <h2>📝 4 Essential Basic Tags</h2>
+            
+            <table class="structure-table">
+                <thead>
+                    <tr>
+                        <th>Tag</th>
+                        <th>Purpose</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>&lt;h1&gt; to &lt;h6&gt;</td>
+                        <td>Headings from big to small</td>
+                        <td>&lt;h1&gt;Big Title&lt;/h1&gt;</td>
+                    </tr>
+                    <tr>
+                        <td>&lt;p&gt;</td>
+                        <td>Paragraph of text</td>
+                        <td>&lt;p&gt;This is a paragraph&lt;/p&gt;</td>
+                    </tr>
+                    <tr>
+                        <td>&lt;br&gt;</td>
+                        <td>Line break (no closing tag)</td>
+                        <td>Line 1&lt;br&gt;Line 2</td>
+                    </tr>
+                    <tr>
+                        <td>&lt;hr&gt;</td>
+                        <td>Horizontal line separator</td>
+                        <td>&lt;hr&gt;</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-box">
+&lt;h1&gt;Big Title&lt;/h1&gt;
+&lt;p&gt;This is a paragraph&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;This is a paragraph after the line&lt;/p&gt;
+            </div>
+        </div>
+
+        <!-- Slide 5: First Interactive Exercise -->
+        <div class="slide">
+            <h2>💻 First Interactive Exercise</h2>
+            
+            <div class="example-box">
+                <h3>🎯 Let's write code together:</h3>
+                <p><strong>Task:</strong> Create a simple page with basic tags</p>
+            </div>
+
+            <div class="code-box">
+&lt;h1&gt;My First Title&lt;/h1&gt;
+&lt;p&gt;I am learning HTML today&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;This is a paragraph after a line break&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Follow us in the next lecture&lt;/p&gt;
+            </div>
+
+            <div class="highlight">
+                <h3>👨‍💻 Your Turn!</h3>
+                <p>Open a text editor (like VS Code or Notepad) and type the code above. Save it as "test.html" and open it in your browser!</p>
+            </div>
+        </div>
+
+        <!-- Slide 6: Complete HTML Structure -->
+        <div class="slide">
+            <h2>🏗️ Complete HTML Page Structure</h2>
+            
+            <div class="code-box">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My First Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Welcome!&lt;/h1&gt;
+    &lt;p&gt;I'm happy to be learning HTML&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+            </div>
+
+            <table class="structure-table">
+                <thead>
+                    <tr>
+                        <th>Part</th>
+                        <th>Meaning</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>&lt;!DOCTYPE html&gt;</td>
+                        <td>Tells the browser this is an HTML page</td>
+                    </tr>
+                    <tr>
+                        <td>&lt;html&gt;</td>
+                        <td>The big container that holds everything</td>
+                    </tr>
+                    <tr>
+                        <td>&lt;head&gt;</td>
+                        <td>Information for the browser (not visible to users)</td>
+                    </tr>
+                    <tr>
+                        <td>&lt;title&gt;</td>
+                        <td>Page name in the browser tab</td>
+                    </tr>
+                    <tr>
+                        <td>&lt;body&gt;</td>
+                        <td>Everything the user sees</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Slide 7: Big Practice Exercise -->
+        <div class="slide">
+            <h2>🎯 Big Practice Exercise</h2>
+            
+            <div class="assignment-box">
+                <h4>📝 Create an HTML page with:</h4>
+                <ol>
+                    <li>A big title (h1)</li>
+                    <li>Two paragraphs</li>
+                    <li>A line break between them</li>
+                    <li>A horizontal line separator</li>
+                    <li>A page title in the browser tab</li>
+                </ol>
+            </div>
+
+            <div class="highlight">
+                <h3>⏰ Time: 20 minutes</h3>
+                <p>Try to create it without looking at examples first. Then we'll review together step by step!</p>
+            </div>
+
+            <div class="example-box">
+                <h3>🏆 Challenge:</h3>
+                <p>Who can create the page from memory without looking at the notes?</p>
+            </div>
+        </div>
+
+        <!-- Slide 8: Review -->
+        <div class="slide">
+            <h2>📚 Let's Review</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>❓ What is HTML?</h3>
+                    <p>A markup language for creating web pages</p>
+                </div>
+                <div class="card">
+                    <h3>🏷️ What is a tag?</h3>
+                    <p>Instructions wrapped in &lt; &gt; that tell the browser how to display content</p>
+                </div>
+                <div class="card">
+                    <h3>✍️ How to write tags?</h3>
+                    <p>Opening tag + content + closing tag</p>
+                </div>
+                <div class="card">
+                    <h3>📝 Basic tags</h3>
+                    <p>h1, p, br, hr</p>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <h3>🎯 Key Structure:</h3>
+                <p>Every HTML page needs: DOCTYPE, html, head, title, and body tags</p>
+            </div>
+        </div>
+
+        <!-- Slide 9: Common Mistakes -->
+        <div class="slide">
+            <h2>❌ Common Beginner Mistakes</h2>
+            
+            <div class="grid">
+                <div class="card" style="border-left-color: #e53e3e;">
+                    <h3>🚫 Forgetting Closing Tags</h3>
+                    <div class="code-box" style="background: #fed7d7; color: #e53e3e;">
+&lt;p&gt;Hello World
+&lt;h1&gt;Title
+                    </div>
+                </div>
+                <div class="card" style="border-left-color: #38a169;">
+                    <h3>✅ Correct Way</h3>
+                    <div class="code-box" style="background: #c6f6d5; color: #38a169;">
+&lt;p&gt;Hello World&lt;/p&gt;
+&lt;h1&gt;Title&lt;/h1&gt;
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <h3>💡 Pro Tips:</h3>
+                <ul>
+                    <li>Always close your tags (except self-closing ones like &lt;br&gt;)</li>
+                    <li>Use proper indentation to make code readable</li>
+                    <li>Test your HTML in different browsers</li>
+                    <li>Don't forget the DOCTYPE declaration</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 10: Assignment -->
+        <div class="slide">
+            <h2>📋 Assignment - After First Lecture</h2>
+            
+            <div class="assignment-box">
+                <h4>✅ Required: Create a simple HTML page containing:</h4>
+                <ol>
+                    <li>Main heading using <code>&lt;h1&gt;</code> with your name</li>
+                    <li>Subheading using <code>&lt;h2&gt;</code> with something like: "My First HTML Page"</li>
+                    <li>Paragraph using <code>&lt;p&gt;</code> telling about yourself (e.g., "I am a student interested in programming...")</li>
+                    <li>Second paragraph about any hobby you like</li>
+                    <li>Use <code>&lt;br&gt;</code> to break a line in one of the paragraphs</li>
+                    <li>Use <code>&lt;hr&gt;</code> to separate the heading from the paragraphs</li>
+                    <li>Set a page title using <code>&lt;title&gt;</code> (e.g., "My First Page")</li>
+                    <li>Save the file as: <code>my_first_page.html</code> and open it in your browser</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Slide 11: Research Topics -->
+        <div class="slide">
+            <h2>🔍 Research Topics</h2>
+            
+            <div class="research-box">
+                <h3>📚 Research and prepare 2-minute presentations on:</h3>
+                <ol>
+                    <li><strong>What's the difference between HTML and CSS?</strong></li>
+                    <li><strong>Can I create a complete website with HTML only?</strong></li>
+                    <li><strong>What are the most popular HTML tags?</strong></li>
+                    <li><strong>What is the function of the <code>&lt;div&gt;</code> tag?</strong></li>
+                    <li><strong>What does the HTML abbreviation mean?</strong></li>
+                    <li><strong>What is a browser? How does it display HTML pages?</strong></li>
+                    <li><strong>What's the difference between self-closing and regular tags?</strong></li>
+                </ol>
+            </div>
+
+            <div class="highlight">
+                <p><strong>Note:</strong> Each student will present one topic in the next lecture!</p>
+            </div>
+        </div>
+
+        <!-- Slide 12: HTML vs CSS Preview -->
+        <div class="slide">
+            <h2>🎨 Quick Preview: HTML vs CSS</h2>
+            
+            <div class="grid">
+                <div class="card" style="border-left-color: #4299e1;">
+                    <h3>🏗️ HTML</h3>
+                    <ul>
+                        <li>Structure and content</li>
+                        <li>Headings, paragraphs, links</li>
+                        <li>Like the skeleton of a house</li>
+                    </ul>
+                </div>
+                <div class="card" style="border-left-color: #48bb78;">
+                    <h3>🎨 CSS</h3>
+                    <ul>
+                        <li>Styling and appearance</li>
+                        <li>Colors, fonts, layouts</li>
+                        <li>Like the paint and decoration</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <h3>💡 Example:</h3>
+                <p><strong>HTML:</strong> Creates a paragraph</p>
+                <p><strong>CSS:</strong> Makes it blue, center-aligned, and bold</p>
+            </div>
+        </div>
+
+        <!-- Slide 13: Next Steps -->
+        <div class="slide">
+            <h2>🚀 What's Next?</h2>
+            
+            <div class="highlight" style="text-align: center; font-size: 1.3em;">
+                <p>🎯 "You've just taken your first step into web development!"</p>
+                <br>
+                <p>💪 "HTML is the foundation of every website. Master it, and you're ready for Advanced HTML!"</p>
+                <br>
+                <p>🌟 "Next lecture: We'll make our pages complete with Advanced Html!"</p>
+            </div>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>📚 Next Lecture</h3>
+                    <p>Advanced HTML - links,images,forms,lists</p>
+                </div>
+                <div class="card">
+                    <h3>🎯 Goal</h3>
+                    <p>Complete your first HTML page</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <p style="font-size: 1.5em; color: #4a5568;">🎉 Good luck with your HTML journey! 🎉</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">⟵ Previous</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next ⟶</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(n) {
+            if (n > 0 && currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            } else if (n < 0 && currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                changeSlide(-1);
+            }
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
